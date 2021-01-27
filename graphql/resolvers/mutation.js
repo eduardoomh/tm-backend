@@ -2,11 +2,11 @@ const UsuarioController = require("../../controllers/usuario");
 
 module.exports = {
     Mutation: {
-        crearUsuario: (parent, {input}, {prisma}) => UsuarioController.crearUsuario(input, prisma),
-        actualizarUsuario: (parent, {id, input}, {prisma}) => UsuarioController.actualizarUsuario(id, input, prisma),
-        borrarUsuario: (parent, {id}, {prisma}) => UsuarioController.borrarUsuario(id, prisma),
-        subirAvatar: (parent, args, ctx) => UsuarioController.subirAvatar(),
-        borrarAvatar: (parent, args, ctx) => UsuarioController.borrarAvatar()
+        crearUsuario: (_, {input}, {prisma}) => UsuarioController.crearUsuario(input, prisma),
+        actualizarUsuario: (_, {id, input}, {prisma, usuario}) => UsuarioController.actualizarUsuario(id, input, prisma, usuario),
+        borrarUsuario: (_, {id}, {prisma, usuario}) => UsuarioController.borrarUsuario(id, prisma, usuario),
+        subirAvatar: () => UsuarioController.subirAvatar(),
+        borrarAvatar: () => UsuarioController.borrarAvatar()
 
     }
 }

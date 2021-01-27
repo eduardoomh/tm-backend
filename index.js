@@ -1,6 +1,8 @@
 const { ApolloServer } = require("apollo-server-express");
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const jwt = require("jsonwebtoken");
+require("dotenv").config({path: ".env"});
 
 const app = express();
 const prisma = new PrismaClient();
@@ -16,9 +18,30 @@ const server = new ApolloServer({
         Mutation
 
     },
-    context: ({request}) => {
+    context: ({req}) => {
+        const token = req.headers.authorization;
+
+        if(token){
+            try{
+                const usuario = jwt.verify(
+                    token.replace("bearer ", ""),
+                    process.env.SECRET_KEY
+                );
+                return {
+                    ...req,
+                    prisma,
+                    usuario,
+                };
+
+            }
+            catch(error){
+                console.log("#### ERROR ####");
+                console.log(error);
+                throw new Error(" token invalido");
+            }
+        }
         return {
-            ...request,
+            ...req,
             prisma
         }
     }
