@@ -23,12 +23,13 @@ const typeDefs = gql`
     }
 
     type Query{
-        iniciarSesion(input: LoginInput!): Token!
+        prueba: String!
         obtenerUsuarios(input: PaginacionInput!): [Usuario]!
         obtenerUsuario(id: ID!): Usuario!
     }
 
     type Mutation{
+        iniciarSesion(input: LoginInput!): Token!
         crearUsuario(input: CrearUsuarioInput!): Usuario!
         actualizarUsuario(id: ID!, input: ActualizarUsuarioInput!): Usuario!
         borrarUsuario(id: ID!): Usuario!
