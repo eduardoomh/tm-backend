@@ -51,7 +51,7 @@ const typeDefs = gql`
         tipo: MantenimientoTipoEnum!
         estado: EstadoSolicitudEnum!
         departamento_solicitante: Departamento!
-        lugar: lugar!
+        lugar: Lugar!
         creado_por: Usuario!
         evidencias: [Evidencia]!
         createdAt: String!
@@ -66,7 +66,7 @@ const typeDefs = gql`
         hora_salida: String!
         hora_llegada: String!
         chofer: String!
-        vehiculos: [Vehiculo]!
+        vehiculo: Vehiculo!
         pasajeros: Int!
         evidencias: [Evidencia]!
         creado_por: Usuario!
@@ -82,6 +82,7 @@ const typeDefs = gql`
         cantidad_pasajeros: Int!
         evidencias: [Evidencia]!
         estado: EstadoDisponibilidadEnum!
+        creado_por: Usuario!
         createdAt: String!
         updatedAt: String!
     }
@@ -90,8 +91,7 @@ const typeDefs = gql`
         id: ID!
         nombre: String!
         subdireccion_asignada: String!
-        Jefe: Usuario!
-        creaqdo_por: Usuario!
+        creado_por: Usuario!
         createdAt: String!
         updatedAt: String!
     } 
@@ -134,7 +134,7 @@ const typeDefs = gql`
 
     type Permisos{
         id: ID!
-        usuario_id: ID!
+        usuario: Usuario
         ver_eventos: Boolean!
         ver_mantenimientos: Boolean!
         ver_salidas: Boolean!
@@ -187,6 +187,30 @@ const typeDefs = gql`
         borrarUsuario(id: ID!): Usuario!
         subirAvatar: Boolean!
         borrarAvatar: Boolean!
+
+        #eventos
+        crearEvento(input: crearEvento!): Evento!
+
+        #mantenimientos
+        crearMantenimiento(input: crearMantenimiento!): Mantenimiento!
+
+        #salidas
+        crearSalida(input: crearSalida!): Salida!
+
+        #vehiculos
+        crearVehiculo(input: crearVehiculo!): Vehiculo!
+
+        #departamentos
+        crearDepartamento(input: crearDepartamento!): Departamento!
+
+        #lugares
+        crearLugar(input: crearLugar!): Lugar!
+
+        #acomodos
+        crearAcomodo(input: crearAcomodo!): Acomodo!
+
+        #extintores
+        crearExtintor(input: crearExtintor!): Extintor!
     }
 
     #Enums-----------------------------------------------
@@ -211,7 +235,7 @@ const typeDefs = gql`
     }
 
     enum EstadoDisponibilidadEnum{
-        DIPONIBLE
+        DISPONIBLE
         NO_DISPONIBLE
     }
 
@@ -277,12 +301,11 @@ const typeDefs = gql`
         fecha: String!
         hora_inicio: String!
         hora_final: String!
-        equipo_proteccion: String!
+        equipo_proteccion: String
         asignado_a: MantenimientoTipoEnum!
         tipo: MantenimientoTipoEnum!
-        estado: EstadoSolicitudEnum!
         departamento_solicitante: ID!
-        lugar: String!
+        lugar: ID!
     }
 
     input actualizarMantenimiento{
@@ -306,7 +329,7 @@ const typeDefs = gql`
         hora_salida: String!
         hora_llegada: String!
         chofer: String!
-        vehiculos: [ID]!
+        vehiculo: ID!
         pasajeros: Int!
     }
 
@@ -326,7 +349,6 @@ const typeDefs = gql`
         placas: String!
         modelo: String!
         cantidad_pasajeros: Int!
-        estado: EstadoDisponibilidadEnum!
     }
 
     input actualizarVehiculo{
@@ -340,13 +362,11 @@ const typeDefs = gql`
     input crearDepartamento{
         nombre: String!
         subdireccion_asignada: String!
-        Jefe: ID!
     }
 
     input actualizarDepartamento{
         nombre: String
         subdireccion_asignada: String
-        Jefe: ID
     }
 
     input PaginacionInput{
@@ -358,15 +378,12 @@ const typeDefs = gql`
     input crearLugar{
         nombre: String!
         informacion: String!
-        acomodo: [ID]!
-        estado: EstadoDisponibilidadEnum!
 
     }
 
     input actualizarLugar{
         nombre: String
         informacion: String
-        acomodo: [ID]
         estado: EstadoDisponibilidadEnum
 
     }

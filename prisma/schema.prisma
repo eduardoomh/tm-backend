@@ -12,7 +12,7 @@ generator client {
 
 
 model Usuario {
-  id Int     @default(autoincrement()) @id
+  id Int @default(autoincrement()) @id
   nombre String  
   apellidos String
   correo String @unique
@@ -21,10 +21,186 @@ model Usuario {
   descripcion String?
   telefono String?
   imagen String?
-  estado String
+  estado EstadoUsuarioEnum @default(PENDIENTE)
   createdAt Int
   updatedAt Int
 }
+
+model Departamento{
+  id Int @default(autoincrement()) @id
+  nombre String
+  subdireccion_asignada String
+  creado_por Usuario @relation("departamento_creado_por")
+  createdAt Int
+  updatedAt Int
+  
+}
+
+model Acomodo{
+  id Int @default(autoincrement()) @id
+  nombre String
+  imagen String
+  createdAt Int
+  updatedAt Int
+}
+
+
+model Lugar{
+  id Int  @default(autoincrement()) @id
+  nombre String
+  informacion String
+  estado EstadoDisponibilidadEnum @default(DISPONIBLE)
+  createdAt Int
+  updatedAt Int
+
+}
+
+model Evento{
+  id Int @default(autoincrement()) @id
+  nombre String
+  informacion String
+  fecha String
+  hora_inicio String
+  hora_final String
+  estado EstadoSolicitudEnum @default(PENDIENTE)
+  departamento_solicitante Departamento @relation("departamento_del_Evento")
+  lugar Lugar @relation("lugar_del_Evento")
+  acomodo Acomodo @relation("Acomodo_del_lugar_del_Evento")
+  creado_por Usuario @relation("evento_creado_por")
+  createdAt Int
+  updatedAt Int
+}
+
+model Mantenimiento{
+  id Int @default(autoincrement()) @id
+  nombre String
+  informacion String
+  fecha String
+  hora_inicio String
+  hora_final String
+  equipo_proteccion String @default("No aplica")
+  asignado_a MantenimientoTipoEnum 
+  tipo MantenimientoTipoEnum
+  estado EstadoSolicitudEnum @default(PENDIENTE)
+  departamento_solicitante Departamento @relation("Departamento_solicitante_mantenimiento")
+  lugar Lugar @relation("lugar_del_manteminiento")
+  creado_por Usuario @relation("creador_del_mantenimiento")
+  createdAt Int
+  updatedAt Int
+}
+
+model Salida{
+  id Int @default(autoincrement()) @id
+  nombre String
+  informacion String
+  fecha String
+  hora_salida String
+  hora_llegada String
+  chofer String
+  pasajeros Int
+  creado_por Usuario @relation("salida_Creada_por_usuario")
+  vehiculo Vehiculo @relation("vehiculo_salida")
+  createdAt Int
+  updatedAt Int
+}
+
+model Vehiculo{
+  id Int @default(autoincrement()) @id
+  nombre String
+  placas String
+  modelo String
+  cantidad_pasajeros Int
+  estado EstadoDisponibilidadEnum @default(NO_DISPONIBLE)
+  creado_por Usuario @relation("vehiculo_creado_por")
+  createdAt Int
+  updatedAt Int
+}
+
+model Evidencia{
+  id Int @default(autoincrement()) @id
+  tipo TipoEvidenciaEnum
+  url String
+  createdAt Int
+  updatedAt Int
+}
+
+model Extintor{
+  id Int @default(autoincrement()) @id
+  nombre String
+  numero_serie String
+  fecha_expiracion String
+  createdAt Int
+  updatedAt Int
+}
+model Permisos{
+  id Int @default(autoincrement()) @id
+  usuario Usuario @relation("permisos_de_usuario")
+  ver_eventos Boolean
+  ver_mantenimientos Boolean
+  ver_salidas Boolean
+  ver_vehiculos Boolean
+  ver_departamentos Boolean
+  ver_usuarios Boolean
+  ver_extintores Boolean
+  ver_calendario Boolean
+  crear_eventos Boolean
+  crear_mantenimientos Boolean
+  crear_salidas Boolean
+  crear_vehiculos Boolean
+  crear_departamentos Boolean
+  crear_extintores Boolean
+  subir_evidencias_mantenimiento Boolean
+  subir_Evidencias_eventos Boolean
+  aprobar_eventos Boolean
+  aprobar_mantenimientos Boolean
+  verificar_eventos Boolean
+  verificar_mantenimientos Boolean
+  actualizar_eventos Boolean
+  actualizar_mantenimientos Boolean
+  actualizar_salidas Boolean
+  actualizar_Extintores Boolean
+  borrar_evidencias_eventos Boolean
+  borrar_evidencias_mantenimientos Boolean
+  borrar_eventos Boolean
+  borrar_mantenimientos Boolean
+  borrar_salidas Boolean
+  borrar_departamentos Boolean
+  borrar_Extintores Boolean
+  modificar_permisos Boolean
+}
+ 
+
+    enum EstadoUsuarioEnum{
+        PENDIENTE
+        ACTIVO
+        SUSPENDIDO
+        ADMINISTRADOR
+    }
+
+    enum EstadoSolicitudEnum{
+        PENDIENTE
+        VERIFICADA
+        APROBADA
+        REPROGRAMADA
+    }
+
+    enum MantenimientoTipoEnum{
+        INTERNO
+        EXTERNO
+    }
+
+    enum EstadoDisponibilidadEnum{
+        DISPONIBLE
+        NO_DISPONIBLE
+    }
+
+    enum TipoEvidenciaEnum{
+        EVENTO
+        MANTENIMIENTO
+        SALIDA
+        VEHICULO
+    }
+
 
 
 
