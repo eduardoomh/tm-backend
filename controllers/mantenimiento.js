@@ -27,6 +27,70 @@ async function crearMantenimiento(input, prisma, user){
     }
 }
 
+async function obtenerMantenimientos(input, prisma, user){
+    if(!user) throw new Error("Necesita estar logueado para poder ver el contenido");
+
+    const {cantidad, pagina} = input;
+
+    try{
+        const mantenimientos = await prisma.mantenimiento.findMany({
+            take: parseInt(cantidad),
+            skip: parseInt((pagina - 1 ) * cantidad)
+        })
+
+        return mantenimientos;
+
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+async function obtenerMantenimiento(id, prisma, user){
+    if(!user) throw new Error("Necesita estar logueado para poder ver el contenido");
+
+
+    try{
+        const mantenimiento = await prisma.mantenimiento.findUnique({
+            where: {
+                id: parseInt(id)
+            }
+        })
+
+        return mantenimiento;
+
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+async function actualizarMantenimiento(id, input, prisma, user){
+    if(!user) throw new Error("Necesita estar logueado para poder ver el contenido");
+
+    try{
+        const mantenimiento = await prisma.mantenimiento.update({
+            where: { 
+                id: parseInt(id) 
+            },
+            data: { 
+                ...input,
+                updatedAt: Date.now()
+            },
+         });
+    
+         return mantenimiento
+    }
+    catch(error){
+        console.log(error);
+    }
+
+}
+
+
 module.exports = {
-    crearMantenimiento
+    crearMantenimiento,
+    obtenerMantenimientos,
+    obtenerMantenimiento,
+    actualizarMantenimiento
 }

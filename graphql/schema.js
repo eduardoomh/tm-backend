@@ -178,6 +178,38 @@ const typeDefs = gql`
         prueba: String!
         obtenerUsuarios(input: PaginacionInput!): [Usuario]!
         obtenerUsuario(id: ID!): Usuario!
+
+        #eventos
+        obtenerEventos(input: PaginacionInput!): [Evento]!,
+        obtenerEvento(id: ID!): Evento!
+
+        #mantenimientos
+        obtenerMantenimientos(input: PaginacionInput!): [Mantenimiento]!
+        obtenerMantenimiento(id: ID!): Mantenimiento!
+
+        #salidas
+        obtenerSalidas(input: PaginacionInput!): [Salida]!
+        obtenerSalida(id: ID!): Salida!
+
+        #vehiculos
+        obtenerVehiculos(input: PaginacionInput!): [Vehiculo]!
+        obtenerVehiculo(id: ID!): Vehiculo!
+
+        #departamentos
+        obtenerDepartamentos(input: PaginacionInput!): [Departamento]!
+        obtenerDepartamento(id: ID!): Departamento!
+
+        #lugares
+        obtenerLugares(input: PaginacionInput!): [Lugar]!
+        obtenerLugar(id: ID!): Lugar!
+
+        #acomodos
+        obtenerAcomodos(input: PaginacionInput!): [Acomodo]!
+        obtenerAcomodo(id: ID!): Acomodo!
+
+        #extintores
+        obtenerExtintores(input: PaginacionInput!): [Extintor]!
+        obtenerExtintor(id: ID!): Extintor!
     }
 
     type Mutation{
@@ -205,6 +237,7 @@ const typeDefs = gql`
 
         #lugares
         crearLugar(input: crearLugar!): Lugar!
+        actualizarLugar(id: ID! input: actualizarLugar!): Lugar!
 
         #acomodos
         crearAcomodo(input: crearAcomodo!): Acomodo!

@@ -34,6 +34,7 @@ module.exports = {
 
         //lugares
         crearLugar: (_, {input}, {prisma, usuario}) => LugarController.crearLugar(input, prisma, usuario),
+        actualizarLugar: (_, {id, input}, {prisma, usuario}) => LugarController.actualizarLugar(id, input, prisma, usuario),
 
         //acomodos
         crearAcomodo: (_, {input}, {prisma, usuario}) => AcomodoController.crearAcomodo(input, prisma, usuario),
